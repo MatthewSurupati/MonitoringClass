@@ -1,0 +1,38 @@
+/* Gaya untuk sidebar */
+.sidebar {
+    background-color: #8B0000;
+    color: white;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.welcome {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Gaya untuk tombol navigasi */
+.stButton button {
+    width: 100%;
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.stButton button:hover {
+    background-color: #FFA07A;
+    color: black;
+}
+
+.stButton button:focus {
+    background-color: #FFD700;
+    color: black;
+}

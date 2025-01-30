@@ -1,0 +1,34 @@
+IBDA1011;Pengantar Algoritma & Pemrograman
+IDIS1011;Pemikiran & Pembelajaran Kristen
+MATH1061;Kalkulus I
+MATH2031;Aljabar Linear
+PHYS1011;Fisika I
+THEO1011;Survei Teologi Reformed
+IBDA1012;Struktur Data dan Algoritma
+MATH1022;Matematika Diskrit
+MATH1062;Kalkulus II
+PHIL1062;Pengantar Logika
+RHET1011;Bahasa Indonesia
+SOC1011;Kewarganegaraan
+IBDA1022;Organisasi dan Arsitektur Komputer
+PHED1014;Pendidikan Jasmani I
+RHET1021;Membaca dan Menulis Kritis/Bahasa Inggris I
+IBDA2021;Sistem Operasi
+IBDA2031;Pemrograman Berorientasi Objek
+IBDA2041;Sistem Basis Data
+THEO2011;Doktrin Kristus dan Keselamatan
+IBDA2012;Pemrograman Berbasis Web
+IBDA2022;Jaringan Komputer
+IEE2022;Mikrokontroler dan Sensor I
+MATH1042;Peluang dan Statistika
+PHED2014;Pendidikan Jasmani II
+PHIL1031;Iman Kristen dan Filsafat Barat I
+IDIS2031;Tuhan, Penciptaan, dan Kemanusiaan
+THEO2021;Doktrin Roh Kudus Gereja
+IBDA2011;Analisis dan Perancangan Algoritma
+IBDA3011;Rekayasa Perangkat Lunak
+IBDA3021;Interaksi Manusia dan Komputer
+IBDA3031;Pengembangan Web Modern
+IBDA3041;Teori Automata
+IDIS1031;Penatalayanan I (Kewirausahaan)
+THEO2031;Etika Reformed
