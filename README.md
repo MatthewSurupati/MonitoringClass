@@ -65,3 +65,6 @@ __Feature__
 3. __YOLO Activity Detection__
    - Menggunakan model YOLO untuk mendeteksi aktivitas seperti makan, tidur, dll.
    - Menyimpan aktivitas ke database dengan mencatat mata kuliah serta jumlah orang yang melakukan setiap aktivitas.
+
+> [!IMPORTANT]
+> Pastikan semua dependensi yang ada memiliki versi yang kompatible.
