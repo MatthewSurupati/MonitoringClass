@@ -18,6 +18,9 @@
       </list>
     </option>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2s2HULGtVSqQlYCTKwEsOErysn5" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -40,6 +43,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Matthew\PycharmProjects\ClassMonitoring" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Matthew\PycharmProjects\ClassMonitoring\database" />
     </key>
   </component>
   <component name="RunManager">
@@ -89,6 +95,9 @@
       <workItem from="1738113280319" duration="1465000" />
       <workItem from="1738166979530" duration="4714000" />
       <workItem from="1738245517549" duration="6965000" />
+      <workItem from="1738336693703" duration="3462000" />
+      <workItem from="1738350675328" duration="6149000" />
+      <workItem from="1738392850641" duration="1842000" />
     </task>
     <servers />
   </component>

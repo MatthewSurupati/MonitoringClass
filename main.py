@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_cookies_manager import EncryptedCookieManager
-from database import login, get_all_mata_kuliah
+from database.database import login, get_all_mata_kuliah
 import halaman.dashboard as dashboard
 import halaman.history as history
 import halaman.mata_kuliah as mata_kuliah

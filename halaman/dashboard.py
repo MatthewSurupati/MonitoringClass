@@ -1,15 +1,37 @@
 import streamlit as st
-import torch.hub
 
-from database import *
+from database.database import *
 import numpy as np
 import tempfile
 import cv2
+from ultralytics import YOLO
+from collections import Counter
 
 def detect_activity(image):
-    model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
-    result = model(image)
-    return result.pandas().xyxy[0]
+    model = YOLO('model_yolo11_trained.pt')
+    results = model.predict(image)
+    activity_data = {}
+    for result in results:
+        for box in result.boxes:
+            class_id = int(box.cls)
+            confidence = float(box.conf)
+            label = model.names[class_id]
+            if label not in activity_data:
+                activity_data[label] = {"count": 0, "total_confidence": 0.0}
+
+            activity_data[label]['count'] += 1
+            activity_data[label]['total_confidence'] += confidence
+
+        activity_summary = []
+        for activity, data in activity_data.items():
+            avg_confidence = data["total_confidence"] / data["count"]
+            activity_summary.append({
+                "activity": activity,
+                "count": data["count"],
+                "avg_confidence": avg_confidence
+            })
+    return activity_summary
+
 def show():
     st.title("🏠 Dashboard")
 
@@ -53,7 +75,13 @@ def show():
             # Simpan sementara untuk analisis
             with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as temp_file:
                 cv2.imwrite(temp_file.name, image)
-                result = detect_activity(temp_file.name)
+                results = detect_activity(temp_file.name)
 
-            st.subheader("Hasil Deteksi")
-            st.write(result)
+                if results:
+                    st.subheader("Hasil Deteksi")
+                    for entry in results:
+                        st.write(
+                            f"- **{entry['activity']}**: {entry['count']} orang (Keyakinan rata-rata: {entry['avg_confidence']:.2f})")
+
+                else:
+                    st.warning("Tidak ada kegiatan terdeteksi")

@@ -1,5 +1,5 @@
 import streamlit as st
-from database import *
+from database.database import *
 
 def show():
     st.title("📚 Mata Kuliah")
