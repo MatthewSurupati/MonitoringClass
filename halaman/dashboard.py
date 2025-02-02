@@ -7,6 +7,27 @@ import cv2
 from ultralytics import YOLO
 from collections import Counter
 
+def analyze_engagement(activity_counts):
+    engaged_categories = ['Raising Hand', 'Writing', 'Looking Forward']
+    not_engaged_categories = ['Sleeping', 'Playing Handphone', 'Turning Around']
+
+    engaged = sum(activity_counts.get(activity, 0) for activity in engaged_categories)
+    not_engaged = sum(activity_counts.get(activity, 0) for activity in not_engaged_categories)
+
+    if engaged > not_engaged:
+        analysis = "Terlibat"
+    elif engaged < not_engaged:
+        analysis = "Tidak Terlibat"
+    else:
+        analysis = "Seimbang"
+
+    return {
+        "engaged": engaged,
+        "not_engaged": not_engaged,
+        "analysis": analysis,
+        "details": activity_counts
+    }
+
 def detect_activity(image):
     model = YOLO('model_yolo11_trained.pt')
     results = model.predict(image)
@@ -30,7 +51,16 @@ def detect_activity(image):
                 "count": data["count"],
                 "avg_confidence": avg_confidence
             })
-    return activity_summary
+
+        detected_activities = []
+        for result in results:
+            for box in result.boxes:
+                class_id = int(box.cls)
+                label = result.names[class_id]
+                detected_activities.append(label)
+
+        activity_counts = Counter(detected_activities)
+    return analyze_engagement(activity_counts)
 
 def show():
     st.title("🏠 Dashboard")
@@ -79,9 +109,38 @@ def show():
 
                 if results:
                     st.subheader("Hasil Deteksi")
-                    for entry in results:
-                        st.write(
-                            f"- **{entry['activity']}**: {entry['count']} orang (Keyakinan rata-rata: {entry['avg_confidence']:.2f})")
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown("**Kategori Terlibat:**")
+                        st.write(f"- Raising Hand: {results['details'].get('Raising Hand', 0)}")
+                        st.write(f"- Writing: {results['details'].get('Writing', 0)}")
+                        st.write(f"- Looking Forward: {results['details'].get('Looking Forward', 0)}")
+                        st.markdown(f"**Total Terlibat:** {results['engaged']}")
+
+                    with col2:
+                        st.markdown("**Kategori Tidak Terlibat:**")
+                        st.write(f"- Sleeping: {results['details'].get('Sleeping', 0)}")
+                        st.write(f"- Playing Handphone: {results['details'].get('Playing Handphone', 0)}")
+                        st.write(f"- Turning Around: {results['details'].get('Turning Around', 0)}")
+                        st.markdown(f"**Total Tidak Terlibat:** {results['not_engaged']}")
+
+                    st.subheader("Hasil Analisis Keterlibatan:")
+                    if results['engaged'] == 0 and results['not_engaged'] == 0:
+                        st.warning("Tidak ada aktivitas terdeteksi")
+                    else:
+                        engagement_status = results['analysis']
+                        if engagement_status == "Terlibat":
+                            st.success(
+                                f"✅ KELAS TERLIBAT (Total: {results['engaged']} vs {results['not_engaged']})")
+                        elif engagement_status == "Tidak Terlibat":
+                            st.error(
+                                f"❌ KELAS TIDAK TERLIBAT (Total: {results['engaged']} vs {results['not_engaged']})")
+                        else:
+                            st.warning(
+                                f"⚖️ SEIMBANG (Total: {results['engaged']} vs {results['not_engaged']})")
+                    # for entry in results:
+                    #     st.write(
+                    #         f"- **{entry['activity']}**: {entry['count']} orang (Keyakinan rata-rata: {entry['avg_confidence']:.2f})")
 
                 else:
                     st.warning("Tidak ada kegiatan terdeteksi")
