@@ -15,7 +15,7 @@ __Technologies Used__
 
 __Project Structure__
 ```
-ClassMonitoring/
+MonitoringClass/
 │── pages/
 │   ├── dashboard.py
 │   ├── mata_kuliah.py
@@ -33,7 +33,7 @@ __Installation__
 1. Clone repository:
    ```
    git clone https://github.com/yourusername/ClassMonitoring.git
-   cd ClassMonitoring
+   cd MonitoringClass
    ```
 2. Buat virtual environment dan install dependensi:
    ```
