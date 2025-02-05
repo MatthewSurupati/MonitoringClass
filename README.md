@@ -1,4 +1,4 @@
-# ClassMonitoring Project
+# ClassMonitoring Project Using YOLO
 __Overview__
 
 ClassMonitoring adalah aplikasi berbasis Streamlit yang digunakan untuk memonitor aktivitas dalam kelas. Aplikasi ini memungkinkan pengguna untuk:
