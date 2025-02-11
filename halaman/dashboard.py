@@ -61,7 +61,7 @@ def detect_activity(image):
 
 def process_video():
     # model = YOLO('model_yolo11_trained.pt')
-    model = YOLO('model_yolo11_v5_trained.pt')
+    model = YOLO('yoloModel/model_yolo11_v5_trained.pt')
     cap = cv2.VideoCapture(st.session_state.video_path)
     frame_window = st.empty()
 
@@ -85,7 +85,7 @@ def process_video():
 
 
 def process_camera(camera_index):
-    model = YOLO('model_yolo11_trained.pt')
+    model = YOLO('yoloModel/model_yolo11_v5_trained.pt')
     try:
         cap = cv2.VideoCapture(camera_index)
         if not cap.isOpened():
@@ -198,17 +198,25 @@ def show():
         st.subheader("Hasil Real-Time")
 
         col_result1, col_result2 = st.columns(2)
+        categories = get_activity_list()
+
         with col_result1:
             st.markdown("### ✅ Aktivitas Terlibat")
-            st.write(f"Raising Hand: {st.session_state.activity_counts['Raising Hand']}")
-            st.write(f"Writing: {st.session_state.activity_counts['Writing']}")
-            st.write(f"Looking Forward: {st.session_state.activity_counts['Looking Forward']}")
+            if not categories['terlibat']:
+                st.info("Belum ada aktivitas terlibat terdefinisi")
+            else:
+                for activity in categories['terlibat']:
+                    count = st.session_state.activity_counts.get(activity, 0)
+                    st.metric(label=activity, value=count)
 
         with col_result2:
             st.markdown("### ❌ Aktivitas Tidak Terlibat")
-            st.write(f"Sleeping: {st.session_state.activity_counts['Sleeping']}")
-            st.write(f"Playing Handphone: {st.session_state.activity_counts['Playing Handphone']}")
-            st.write(f"Turning Around: {st.session_state.activity_counts['Turning Around']}")
+            if not categories['tidak_terlibat']:
+                st.info("Belum ada aktivitas tidak terlibat terdefinisi")
+            else:
+                for activity in categories['tidak_terlibat']:
+                    count = st.session_state.activity_counts.get(activity, 0)
+                    st.metric(label=activity, value=count)
 
         analysis = analyze_engagement()
         st.markdown("---")
