@@ -1,10 +1,10 @@
-# ClassMonitoring Project
+# ClassMonitoring Project Using YOLO
 __Overview__
 
 ClassMonitoring adalah aplikasi berbasis Streamlit yang digunakan untuk memonitor aktivitas dalam kelas. Aplikasi ini memungkinkan pengguna untuk:
 - Melihat daftar mata kuliah dari database
 - Mengedit dan menghapus data mata kuliah
-- Mengunggah gambar atau menggunakan kamera untuk mendeteksi aktivitas dalam kelas menggunakan model YOLO
+- Mengunggah video atau menggunakan kamera untuk mendeteksi aktivitas dalam kelas menggunakan model YOLO
 - Menyimpan hasil deteksi ke dalam database, mencatat mata kuliah, serta jumlah orang yang melakukan aktivitas tertentu seperti makan atau tidur.
 
 __Technologies Used__
@@ -15,7 +15,7 @@ __Technologies Used__
 
 __Project Structure__
 ```
-ClassMonitoring/
+MonitoringClass/
 │── pages/
 │   ├── dashboard.py
 │   ├── mata_kuliah.py
@@ -33,7 +33,7 @@ __Installation__
 1. Clone repository:
    ```
    git clone https://github.com/yourusername/ClassMonitoring.git
-   cd ClassMonitoring
+   cd MonitoringClass
    ```
 2. Buat virtual environment dan install dependensi:
    ```
@@ -49,7 +49,7 @@ __Installation__
 __Database Setup__
 
 - Pastikan database telah dibuat dan berisi tabel `class`, `activity`, `users` dan `activity_log`.
-- Jika belum ada, aplikasi akan membuatnya secara otomatis saat pertama dijalankan.
+- Jika belum ada, maka buatlah terlebih dahulu.
 
 __Feature__
 
@@ -58,7 +58,7 @@ __Feature__
    - Tersedia tombol __Add__, __Edit__ dan __Delete__ untuk menambahkan, mengubah atau menghapus data mata kuliah.
 2. __Dashboard__
    - Menampilkan daftar mata kuliah yang diambil dari database.
-   - Memungkinkan pengguna untuk mengunggah gambar atau menggunakan kamera.
+   - Memungkinkan pengguna untuk mengunggah video atau menggunakan kamera.
    - Menggunakan model YOLO untuk mendeteksi aktivitas di dalam kelas.
    - Menampilkan hasil deteksi di bawah area upload/camera.
    - Menyimpan hasil deteksi ke dalam database.
