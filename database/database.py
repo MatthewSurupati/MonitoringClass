@@ -27,7 +27,7 @@ def get_all_mata_kuliah():
     cursor.execute("SELECT * FROM class")
     data = cursor.fetchall()
     conn.close()
-    return [{"id_class": row[0], "class_code": row[1], "class_name": row[2]} for row in data]
+    return [{"class_code": row[0], "class_name": row[1]} for row in data]
 
 def get_mata_kuliah():
     conn = connection()
@@ -35,7 +35,7 @@ def get_mata_kuliah():
     cursor.execute("SELECT * FROM class")
     data = cursor.fetchall()
     conn.close()
-    return {row[1]: row[2] for row in data}
+    return {row[0]: row[1] for row in data}
 
 def add_mata_kuliah(class_code, class_name):
     conn = connection()
@@ -46,18 +46,39 @@ def add_mata_kuliah(class_code, class_name):
     cursor.close()
     conn.close()
 
-def delete_mata_kuliah(id_class):
+def delete_mata_kuliah(class_code):
     """Menghapus mata kuliah berdasarkan ID"""
     conn = connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM class WHERE id_class = %s", (id_class,))
+    cursor.execute("DELETE FROM class WHERE class_code = %s", (class_code,))
     conn.commit()
     conn.close()
 
-def update_mata_kuliah(id, new_name):
+def update_mata_kuliah(class_code, new_name):
     """Mengupdate nama mata kuliah berdasarkan ID"""
     conn = connection()
     cursor = conn.cursor()
-    cursor.execute("UPDATE class SET class_name = %s WHERE id_class = %s", (new_name, id))
+    cursor.execute("UPDATE class SET class_name = %s WHERE class_code = %s", (new_name, class_code))
     conn.commit()
     conn.close()
+
+def get_activity_list():
+    """Mengambil data aktivitas yang di lakukan"""
+    conn = connection()
+    cursor = conn.cursor()
+    cursor.execute("Select activity, category from activity")
+    activities = cursor.fetchall()
+
+    categories = {
+        'terlibat': [],
+        'tidak_terlibat': []
+    }
+
+    for activity in activities:
+        if activity[1] == 'Terlibat':
+            categories['terlibat'].append(activity[0])
+        else:
+            categories['tidak_terlibat'].append(activity[0])
+
+    conn.close()
+    return categories

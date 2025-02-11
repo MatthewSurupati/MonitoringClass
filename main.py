@@ -44,7 +44,7 @@ with open("styles.css") as css:
     st.markdown(f"<style>{css.read()}</style>", unsafe_allow_html=True)
 
 # Sidebar
-st.sidebar.markdown("<div class='sidebar'>", unsafe_allow_html=True)
+# st.sidebar.markdown("<div class='sidebar'>", unsafe_allow_html=True)
 
 if st.session_state.logged_in:
     st.sidebar.markdown(f"<p class='welcome'>Selamat datang, {st.session_state.username}!</p>", unsafe_allow_html=True)

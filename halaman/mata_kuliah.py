@@ -42,29 +42,29 @@ def show():
             st.text(cls["class_name"])
 
         with col3:
-            if st.button("✏ Edit", key=f"edit_{cls['id_class']}"):
-                st.session_state["edit_mode"] = cls["id_class"]
-                # edit_mata_kuliah(cls["id_class"], cls["class_name"])
+            if st.button("✏ Edit", key=f"edit_{cls['class_code']}"):
+                st.session_state["edit_mode"] = cls["class_code"]
+                # edit_mata_kuliah(cls["class_code"], cls["class_name"])
                 st.rerun()
 
         with col4:
-            if st.button("🗑 Delete", key=f"delete_{cls['id_class']}"):
-                delete_mata_kuliah(cls["id_class"])
+            if st.button("🗑 Delete", key=f"delete_{cls['class_code']}"):
+                delete_mata_kuliah(cls["class_code"])
                 st.rerun()  # Refresh halaman setelah hapus
     if st.session_state["edit_mode"] is not None:
-        id_class = st.session_state["edit_mode"]
-        class_to_edit = next((cls for cls in classes if cls["id_class"] == id_class), None)
+        class_code = st.session_state["edit_mode"]
+        class_to_edit = next((cls for cls in classes if cls["class_code"] == class_code), None)
 
         if class_to_edit:
-            edit_mata_kuliah(class_to_edit["id_class"], class_to_edit["class_name"])
+            edit_mata_kuliah(class_to_edit["class_code"], class_to_edit["class_name"])
 
-def edit_mata_kuliah(id_class, old_name):
-    with st.form(f"edit_form_{id_class}"):
-        new_name = st.text_input("Nama Mata Kuliah", value=old_name, key=f"name_{id_class}")
+def edit_mata_kuliah(class_code, old_name):
+    with st.form(f"edit_form_{class_code}"):
+        new_name = st.text_input("Nama Mata Kuliah", value=old_name, key=f"name_{class_code}")
         submitted = st.form_submit_button("Simpan")
 
         if submitted and new_name.strip():
-            update_mata_kuliah(id_class, new_name)
+            update_mata_kuliah(class_code, new_name)
             st.session_state["success_message"] = f"Mata kuliah '{old_name}' telah diperbarui menjadi '{new_name}'."
             st.session_state["edit_mode"] = None  # Keluar dari mode edit
             st.rerun()
