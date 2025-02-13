@@ -35,7 +35,7 @@ def read_txt_file(file_path):
     return data
 
 if __name__ == '__main__':
-    file_path = "ClassData.txt"
+    file_path = "resource/ClassData.txt"
     data = read_txt_file(file_path)
 
     if data:

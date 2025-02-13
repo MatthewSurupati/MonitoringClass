@@ -1,0 +1,1 @@
+INSERT INTO monitoring_class.users (id, username, password_hash) VALUES (1, 'prilly', 'scrypt:32768:8:1$PztrQQwzJdcqKGoW$a2cd3626b5b9b4d4fed01ed267c4e5432a5102f4ec336c2cef2e85b31e6b2a65c91879bcf49d87e05b39059f02ac912218dd71a6f0b2928880e360223abf772b');

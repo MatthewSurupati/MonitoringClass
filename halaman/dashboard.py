@@ -1,3 +1,5 @@
+import datetime
+
 import streamlit as st
 
 from database.database import *
@@ -6,6 +8,7 @@ import tempfile
 import cv2
 from ultralytics import YOLO
 from collections import Counter, defaultdict
+from utils import utils
 
 # Inisialisasi session state
 if 'activity_counts' not in st.session_state:
@@ -133,13 +136,15 @@ def show():
         if st.button("💾 Simpan Hasil Analisis"):
             if sum(st.session_state.activity_counts.values()) > 0:
                 analysis = analyze_engagement()
-                # save_analysis_results(
-                #     mata_kuliah=selected_class,
-                #     engaged=analysis['engaged'],
-                #     not_engaged=analysis['not_engaged'],
-                #     analysis_result=analysis['analysis'],
-                #     activity_details=dict(st.session_state.activity_counts)
-                # )
+                id_monitoring = utils.hash_mata_kuliah(selected_class, datetime.datetime.now())
+                save_analysis_result(
+                    id_monitoring=id_monitoring,
+                    class_code=selected_class,
+                    engaged=analysis['engaged'],
+                    not_engaged=analysis['not_engaged'],
+                    analysis_result=analysis['analysis']
+                )
+                save_detail_analysis(id_monitoring, dict(st.session_state.activity_counts))
                 st.success("Data berhasil disimpan!")
                 st.session_state.activity_counts = defaultdict(int)
             else:

@@ -1,5 +1,7 @@
 import mysql.connector
+import pandas as pd
 from werkzeug.security import generate_password_hash, check_password_hash
+import datetime
 
 def connection():
     return mysql.connector.connect(
@@ -82,3 +84,54 @@ def get_activity_list():
 
     conn.close()
     return categories
+
+def save_analysis_result(id_monitoring, class_code, engaged, not_engaged, analysis_result):
+    """Menyimpan Hasil Analysis"""
+    conn = connection()
+    cursor = conn.cursor()
+    cursor.execute('''insert into monitoring (date, class_code, id_monitoring, count_engage, count_not_engage, analysis) VALUES(%s, %s, %s, %s, %s, %s)''', (datetime.datetime.now(), class_code, id_monitoring, engaged, not_engaged, analysis_result))
+    conn.commit()
+    conn.close()
+
+def save_detail_analysis(id_monitoring, activity_count):
+    """Menyimpan detail deteksi"""
+    conn = connection()
+    cursor = conn.cursor()
+    try:
+        query = """
+                INSERT INTO detail_monitoring (id_monitoring, activity, activity_count)
+                VALUES (%s, %s, %s)
+                """
+
+        # Persiapkan data untuk dimasukkan
+        data_to_insert = [(id_monitoring, activity, count) for activity, count in activity_count.items()]
+
+        # Eksekusi query untuk setiap data
+        cursor.executemany(query, data_to_insert)
+        conn.commit()
+        print("Detail analysis berhasil disimpan.")
+
+    except mysql.connector.Error as e:
+        conn.rollback()
+        print(f"Error: {e}")
+
+    finally:
+        cursor.close()
+        conn.close()
+
+def get_monitoring_data():
+    """Mengambil data dari tabel monitoring"""
+    conn = connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM monitoring")
+    data = cursor.fetchall()
+    conn.close()
+    return pd.DataFrame(data)
+
+def get_detail_monitoring(id_monitoring):
+    conn = connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("""SELECT * FROM detail_monitoring WHERE id_monitoring = %s""", (id_monitoring,))
+    data = cursor.fetchall()
+    conn.close()
+    return pd.DataFrame(data)
