@@ -9,6 +9,9 @@ import cv2
 from ultralytics import YOLO
 from collections import Counter, defaultdict
 from utils import utils
+import torch
+from threading import Thread
+from queue import Queue
 
 # Inisialisasi session state
 if 'activity_counts' not in st.session_state:
@@ -19,8 +22,45 @@ if 'video_path' not in st.session_state:
     st.session_state.video_path = None
 if 'camera_index' not in st.session_state:
     st.session_state.camera_index = 0 #Default Main Camera
+@st.cache_resource
+def load_model():
+    model = YOLO('yoloModel/model_yolo11_v5_trained.pt')
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    model.to(device)
+    model.half()
+    return model
 
+frame_queue = Queue(maxsize=10)
 
+def process_frames():
+    model = load_model()
+    while True:
+        if not frame_queue.empty():
+            frame, is_video = frame_queue.get()
+            if frame_queue.qsize() > 2:
+                continue
+
+            with torch.no_grad():
+                results = model.predict(
+                    frame,
+                    imgsz=640,
+                    half=True if torch.cuda.is_available() else False,
+                    device=model.device,
+                    verbose=False,
+                    augment=False
+                )
+
+            for result in results:
+                for box in result.boxes:
+                    class_id = int(box.cls)
+                    label = model.bames[class_id]
+                    st.session_state.activity_counts[label] += 1
+
+            annotated_frame = results[0].plot()
+            if is_video:
+                st.session_state.video_frame = annotated_frame
+            else:
+                st.session_state.camera_frame = annotated_frame
 def list_available_cameras(max_to_check=3):
     """Deteksi kamera yang tersedia"""
     available = []
@@ -47,7 +87,6 @@ def analyze_engagement():
     }
 
 def detect_activity(image):
-    # model = YOLO('model_yolo11_trained.pt')
     model = YOLO('model_yolo11_v5_trained.pt')
     results = model.predict(image)
 
@@ -86,7 +125,6 @@ def process_video():
     cap.release()
     st.session_state.processing = False
 
-
 def process_camera(camera_index):
     model = YOLO('yoloModel/model_yolo11_v5_trained.pt')
     try:
@@ -116,7 +154,6 @@ def process_camera(camera_index):
     finally:
         cap.release()
         st.session_state.processing = False
-
 
 def show():
     st.title("📊 Analisis Keterlibatan Kelas")
@@ -189,10 +226,14 @@ def show():
                 if not st.session_state.processing:
                     st.session_state.processing = True
                     st.session_state.activity_counts = defaultdict(int)
+
                     if input_type == "Upload Video" and st.session_state.video_path:
                         process_video()
+                        # Thread(target=process_video, daemon=True).start()
+
                     elif input_type == "Kamera Real-Time":
                         process_camera(st.session_state.camera_index)
+                        # Thread(target=process_camera, args=(st.session_state.camera_index,), daemon=True).start()
 
         with col_stop:
             if st.button("⏹️ Hentikan Pemrosesan"):
