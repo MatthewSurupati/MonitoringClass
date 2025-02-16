@@ -10,6 +10,9 @@ cookies = EncryptedCookieManager(prefix="myapp_", password="adminprilly")
 if not cookies.ready():
     st.stop()
 
+if "processing" not in st.session_state:
+    st.session_state.processing = False
+
 # Fungsi logout
 def logout():
     cookies["logged_in"] = ""

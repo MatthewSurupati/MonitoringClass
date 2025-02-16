@@ -1,0 +1,4 @@
+INSERT INTO monitoring_class.monitoring (date, class_code, id_monitoring, count_engage, count_not_engage, analysis) VALUES ('2025-02-15', 'IBDA2022', '0555f7883d3e6d68bd67f6a8ad48806630d155ed03dcd501f0a94c64a3bbed1d', 31, 0, 'Terlibat');
+INSERT INTO monitoring_class.monitoring (date, class_code, id_monitoring, count_engage, count_not_engage, analysis) VALUES ('2025-02-16', 'IBDA2022', '2a645340b4dcd2b75a6b01e2cd67670cea9445296d3fd199c8cf92dd57e71acb', 0, 241, 'Tidak Terlibat');
+INSERT INTO monitoring_class.monitoring (date, class_code, id_monitoring, count_engage, count_not_engage, analysis) VALUES ('2025-02-13', 'IBDA1011', '52f33054a4fc84717a2c0e93df6387d20a90dacf1154e0046822b8e881a9c91b', 511, 362, 'Terlibat');
+INSERT INTO monitoring_class.monitoring (date, class_code, id_monitoring, count_engage, count_not_engage, analysis) VALUES ('2025-02-16', 'IBDA1011', 'b3704dd56c71c390dc30e44d0dc30749b6bb310e9eec21d21aea9593f917c94b', 113, 0, 'Terlibat');
