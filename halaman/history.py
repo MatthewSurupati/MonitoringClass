@@ -88,7 +88,7 @@ def show():
             color="status",
             title=f"Trend Aktif & Tidak Aktif Mahasiswa untuk {selected_course}",
             labels={
-                "count": "Jumlah Mahasiswa",
+                "count": "Activity Count",
                 "status": "Status",
                 "date_str": "Tanggal"
             }
